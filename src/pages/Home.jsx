@@ -4,7 +4,7 @@ import { certs } from '../data/certs';
 import CaseCard from '../components/CaseCard';
 import CertCard from '../components/CertCard';
 import useReveal from '../components/useReveal';
-import badgerImg from '../assets/dig-detect-defend.png';
+import badgerImg from '../assets/dig-detect-defend.webp';
 import styles from './Home.module.css';
 
 const FILTERS = ['all', 'very-easy', 'easy', 'medium', 'hard', 'insane', 'THM', 'HTB'];
@@ -124,7 +124,10 @@ export default function Home() {
             src={badgerImg}
             alt="Blue Team — Dig, Detect, Defend"
             className={styles.badgeImg}
+            width="1160"
+            height="633"
             loading="eager"
+            fetchPriority="high"
           />
         </div>
       </section>
