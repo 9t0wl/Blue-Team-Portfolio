@@ -1,0 +1,103 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+}
+
+.nav.scrolled {
+  background: rgba(7, 11, 18, 0.9);
+  backdrop-filter: blur(12px);
+  border-color: var(--border);
+}
+
+.logo {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #35c9ff;
+  -webkit-text-stroke: 1px white;
+  text-shadow:
+    0 0 7px #35c9ff,
+    0 0 10px #35c9ff,
+    0 0 21px #35c9ff,
+    0 0 42px #35c9ff,
+    0 0 82px #35c9ff;
+  animation: flicker 4s infinite;
+}
+
+.logoNum {
+  color: #35c9ff;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow:
+      0 0 7px #35c9ff,
+      0 0 10px #35c9ff,
+      0 0 21px #35c9ff,
+      0 0 42px #35c9ff,
+      0 0 82px #35c9ff;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+    color: #0a3a52;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.link {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.link:hover { color: var(--purple2); text-shadow: var(--glow-p); }
+.slash { color: var(--purple); }
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--muted);
+  transition: background 0.2s;
+}
+.burger:hover span { background: var(--purple2); }
+
+@media (max-width: 640px) {
+  .burger { display: flex; }
+
+  .links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(7,11,18,0.97);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+  }
+  .links.open { display: flex; }
+  .link { padding: 0.75rem 0; display: block; }
+}

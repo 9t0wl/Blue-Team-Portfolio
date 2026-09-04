@@ -1,0 +1,82 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+  border-radius: var(--radius);
+}
+
+.accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.cg:hover  { border-color: rgba(63,220,122,0.4);  transform: translateY(-3px); }
+.cp:hover  { border-color: rgba(59,130,246,0.4);  transform: translateY(-3px); }
+.cpk:hover { border-color: rgba(53,201,255,0.4);  transform: translateY(-3px); }
+.ca:hover  { border-color: rgba(245,185,68,0.4);  transform: translateY(-3px); }
+
+.status {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.6rem;
+}
+
+.name {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.issuer {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-bottom: 0.85rem;
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.certId {
+  margin-top: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.55;
+}
+
+.scoreRow {
+  margin-top: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.scoreLabel {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.progressWrap {
+  margin-top: 0.85rem;
+}
+.progressLabel {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
