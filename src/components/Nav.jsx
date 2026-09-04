@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Nav.module.css';
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Logo doubles as "back to top". On the home page a plain <Link to="/"> is a
+  // no-op, so handle the scroll ourselves; from a case page, go home first.
+  const goHome = (e) => {
+    // let ctrl/cmd/shift/middle-click open a new tab as usual
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    const atHome = location.pathname === '/';
+    if (!atHome) navigate('/');
+    window.scrollTo({ top: 0, behavior: atHome ? 'smooth' : 'auto' });
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -25,7 +37,13 @@ export default function Nav() {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <Link to="/" className={styles.logo}>
+      <Link
+        to="/"
+        className={styles.logo}
+        onClick={goHome}
+        aria-label="Back to top"
+        title="Back to top"
+      >
         <span className={styles.logoNum}>9</span>t0wl
       </Link>
 
