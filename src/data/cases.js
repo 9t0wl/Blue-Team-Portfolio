@@ -28,6 +28,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/baggage.md?raw'),
   },
+  {
+    id: 'unit42',
+    name: 'Unit42',
+    platform: 'HTB',
+    category: 'DFIR / Endpoint Forensics',
+    diff: 'very-easy',
+    tags: ['Sysmon', 'Chainsaw', 'Timestomping', 'MITRE ATT&CK', 'DNS Correlation', 'Phishing', 'UltraVNC'],
+    date: '2026-09',
+    writeup: () => import('../writeups/unit42.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
