@@ -14,13 +14,42 @@ Every question in this room maps to a specific Sysmon Event ID — it's the inte
 
 ---
 
+## Tooling
+
+The entire investigation ran against a single Sysmon EVTX (`Microsoft-Windows-Sysmon-Operational.evtx`) with [Chainsaw](https://github.com/WithSecureLabs/chainsaw) — no live host, no GUI required. Two patterns did all the work:
+
+```bash
+# Full-text search across every field
+chainsaw search "Preventivo24.02.14.exe.exe" -i Microsoft-Windows-Sysmon-Operational.evtx
+
+# Tau-expression filter on a specific field (here, Event ID)
+chainsaw search -t 'Event.System.EventID: =22' Microsoft-Windows-Sysmon-Operational.evtx
+```
+
+`--json` piped through `jq` turns either into a sortable timeline — the pattern reused for every correlation step below:
+
+```bash
+chainsaw search -t 'Event.System.EventID: =22' Microsoft-Windows-Sysmon-Operational.evtx --json \
+  | jq -r '.[] | "\(.timestamp) \(.Event.EventData.QueryName)"' | sort
+```
+
+---
+
 ## Investigation
 
 ### Establishing scope
 
-A quick tally of Event ID 11 (FileCreate) events — 56 of them — confirmed there was real file-write activity worth walking through before diving into any single one.
+```bash
+chainsaw search -t 'Event.System.EventID: =11' Microsoft-Windows-Sysmon-Operational.evtx
+```
+
+56 FileCreate events — confirmed there was real file-write activity worth walking through before diving into any single one.
 
 ### Identifying the malicious process
+
+```bash
+chainsaw search -t 'Event.System.EventID: =1' Microsoft-Windows-Sysmon-Operational.evtx
+```
 
 Filtering Event ID 1 (ProcessCreate) surfaced the dropper:
 
@@ -35,10 +64,22 @@ Two disguises stacked in one filename: a **double extension** (with Explorer's "
 No Sysmon field directly links a downloaded file to the DNS query that resolved its host — this required correlating two event types **by timestamp**:
 
 1. Pull the exact FileCreate time for the dropper.
-2. Pull every DnsEvent (Event ID 22), sorted chronologically.
-3. Find the query landing immediately before the file-create time.
+2. Pull every DnsEvent (Event ID 22), sorted chronologically:
 
-That query resolved to Dropbox's CDN infrastructure (`*.dropboxusercontent.com`) — the malware was distributed via a Dropbox share link, not a purpose-built C2 domain. Using a legitimate, trusted cloud-storage provider for delivery is a deliberate choice: it blends into normal traffic and is far less likely to be blocked by content filtering than a domain registered for the campaign.
+```bash
+chainsaw search -t 'Event.System.EventID: =22' Microsoft-Windows-Sysmon-Operational.evtx --json \
+  | jq -r '.[] | "\(.timestamp) \(.Event.EventData.QueryName)"' | sort
+```
+
+3. Find the query landing immediately before the file-create time:
+
+```
+d.dropbox.com
+uc2f030016253ec53f4953980a4e.dl.dropboxusercontent.com
+www.example.com
+```
+
+The first two are Dropbox's redirect/download-CDN domains — confirms the dropper was pulled from a Dropbox share link, not a purpose-built C2 domain. Using a legitimate, trusted cloud-storage provider for delivery is a deliberate choice: it blends into normal traffic and is far less likely to be blocked by content filtering than a domain registered for the campaign. (`www.example.com`, the third hit in the same query window, turned out to answer a different question — see below.)
 
 ### Catching the timestomp
 
@@ -67,7 +108,13 @@ A second DNS query from the same result set resolved `www.example.com` to `93.18
 
 ### Final payload and exit
 
-The dropper's last act was installing a **backdoored variant of UltraVNC** — a legitimate, widely used remote-desktop tool, trojanized for persistent remote access. Filtering Event ID 5 (ProcessTerminate) on the dropper's PID showed it exiting immediately afterward: task complete, no reason to keep running.
+The dropper's last act was installing a **backdoored variant of UltraVNC** — a legitimate, widely used remote-desktop tool, trojanized for persistent remote access.
+
+```bash
+chainsaw search -t 'Event.System.EventID: =5' Microsoft-Windows-Sysmon-Operational.evtx
+```
+
+Filtering Event ID 5 (ProcessTerminate) on the dropper's PID showed it exiting immediately afterward: task complete, no reason to keep running.
 
 ---
 
