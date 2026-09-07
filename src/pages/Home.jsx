@@ -101,7 +101,7 @@ export default function Home() {
 
           <div className={styles.heroBadges}>
             <span className="badge badge-g">TryHackMe SOC L1 — Complete</span>
-            <span className="badge badge-a">SAL1 — Exam Pending</span>
+            <span className="badge badge-a">CDSA — In Progress</span>
             <span className="badge badge-p">3yr Red Team Background</span>
           </div>
 
