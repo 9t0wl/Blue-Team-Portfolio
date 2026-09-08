@@ -1,0 +1,266 @@
+.shell { position: relative; z-index: 5; }
+
+/* =========================== MASTHEAD =========================== */
+.masthead {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--masthead-h);
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.6rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 40%),
+    linear-gradient(180deg, var(--leather), #1d160f);
+  border-bottom: 1px solid var(--rule2);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.65);
+}
+
+/* the thin brass bead that separates chrome from pane */
+.masthead::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, var(--brass-dim) 15%, var(--brass) 50%, var(--brass-dim) 85%, transparent);
+  opacity: 0.75;
+}
+
+.crest {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.crestMark {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--brass);
+  text-shadow: 0 0 14px rgba(240, 185, 90, 0.55);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s;
+}
+.crest:hover .crestMark { transform: rotate(90deg); color: var(--gaslamp); }
+
+.crestText { display: flex; flex-direction: column; min-width: 0; }
+
+.crestName {
+  font-family: var(--lodge);
+  font-size: 1.06rem;
+  letter-spacing: 0.14em;
+  color: var(--parchment);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+.crestSub {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ash);
+  white-space: nowrap;
+}
+
+.mastRight { display: flex; align-items: center; gap: 1.1rem; }
+
+/* the enamel door plate */
+.doorPlate {
+  font-family: var(--lodge);
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  color: var(--brass-lt);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--rule2);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(201, 162, 39, 0.12), rgba(0, 0, 0, 0.3));
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.2);
+  white-space: nowrap;
+}
+.plateB { color: var(--gaslamp); }
+
+.drawerBtn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 5px;
+}
+.drawerBtn span {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--brass);
+}
+
+/* progress along the bottom edge of the masthead */
+.progressTrack {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.progressFill {
+  height: 100%;
+  width: 100%;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--brass-dim), var(--brass) 55%, var(--gaslamp));
+  box-shadow: 0 0 12px rgba(240, 185, 90, 0.6);
+}
+
+/* ============================ INDEX ============================= */
+.index {
+  position: fixed;
+  top: var(--masthead-h);
+  bottom: 0;
+  left: 0;
+  width: var(--index-w);
+  z-index: 110;
+  padding: 1.7rem 1.15rem;
+  overflow-y: auto;
+  background: linear-gradient(180deg, var(--leather), #17120c);
+  border-right: 1px solid var(--rule);
+  box-shadow: inset -10px 0 22px -14px rgba(0, 0, 0, 0.9);
+}
+
+.indexHead {
+  font-family: var(--lodge);
+  font-size: 0.82rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 1.1rem;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+.indexList { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+
+.indexLink {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-left: 2px solid transparent;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.indexLink:hover { background: rgba(201, 162, 39, 0.07); border-left-color: var(--brass-dim); }
+
+/* roman numeral in the gutter, like a chapter mark */
+.mark {
+  font-family: var(--lodge);
+  font-size: 0.72rem;
+  color: var(--ash);
+  width: 1.7rem;
+  flex-shrink: 0;
+  text-align: right;
+  transition: color 0.25s;
+}
+.indexLabel {
+  font-family: var(--body);
+  font-size: 1.02rem;
+  letter-spacing: 0.04em;
+  color: var(--faded);
+  transition: color 0.25s;
+}
+
+.indexActive { background: rgba(201, 162, 39, 0.11); border-left-color: var(--gaslamp); }
+.indexActive .indexLabel { color: var(--parchment); }
+.indexActive .mark { color: var(--gaslamp); }
+.indexLink:hover .indexLabel { color: var(--parchment); }
+
+.indexRule {
+  height: 1px;
+  margin: 1.1rem 0.3rem;
+  background: linear-gradient(90deg, var(--brass-dim), transparent);
+  opacity: 0.6;
+}
+
+/* --- counters --- */
+.counters { display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.6rem; }
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: 1px dotted rgba(201, 162, 39, 0.22);
+  padding-bottom: 0.35rem;
+}
+.counterLabel {
+  font-family: var(--lodge);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.counterValue {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--brass-lt);
+}
+
+.plate {
+  margin-top: auto;
+  padding: 1.4rem 0.6rem 0;
+  font-family: var(--lodge);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  line-height: 2;
+  color: var(--ash);
+  text-transform: uppercase;
+}
+
+/* ============================= PANE ============================= */
+.pane {
+  position: relative;
+  z-index: 5;
+  margin-left: var(--index-w);
+  padding-top: var(--masthead-h);
+  min-height: 100vh;
+  background: var(--vault);
+  border-left: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.scrim { display: none; }
+
+/* ========================== RESPONSIVE ========================== */
+@media (max-width: 1024px) {
+  .index { display: none; }
+  .pane { margin-left: 0; }
+  .drawerBtn { display: flex; }
+
+  .indexDrawer {
+    display: block;
+    width: min(82vw, 20rem);
+    box-shadow: 14px 0 40px rgba(0, 0, 0, 0.75);
+    animation: drawerIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes drawerIn {
+    from { transform: translateX(-100%); }
+    to   { transform: none; }
+  }
+
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: var(--masthead-h) 0 0 0;
+    z-index: 105;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(2px);
+  }
+}
+
+@media (max-width: 560px) {
+  .masthead { padding: 0 1rem; }
+  .crestName { font-size: 0.9rem; letter-spacing: 0.1em; }
+  .crestSub { display: none; }
+  .doorPlate { font-size: 0.8rem; padding: 0.25rem 0.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crest:hover .crestMark { transform: none; }
+  .indexDrawer { animation: none; }
+}

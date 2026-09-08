@@ -6,11 +6,20 @@ import { getCase, cases, caseDiffOrder } from '../data/cases';
 import styles from './WriteupPage.module.css';
 
 const DIFF_COLOR = {
-  'very-easy': 'var(--green)',
-  easy:   'var(--green)',
-  medium: 'var(--amber)',
-  hard:   'var(--pink)',
-  insane: 'var(--purple2)',
+  'very-easy': 'var(--verdigris-lt)',
+  easy:   'var(--verdigris-lt)',
+  medium: 'var(--gaslamp)',
+  hard:   'var(--oxblood-lt)',
+  insane: 'var(--oxblood-lt)',
+};
+
+// Matches the grading used on the casebook rows.
+const GRADE = {
+  'very-easy': 'Trivial',
+  easy:        'Elementary',
+  medium:      'Singular',
+  hard:        'Grave',
+  insane:      'Insoluble',
 };
 
 // One config per content type — adding a new type (e.g. Sherlocks-only) means
@@ -21,10 +30,10 @@ const TYPES = {
     items: cases,
     diffOrder: caseDiffOrder,
     basePath: '/case',
-    sectionLabel: 'cases',
+    sectionLabel: 'casebook',
     notFoundLabel: 'case',
     fieldKey: 'platform',
-    fieldColor: { THM: '#e34f26', HTB: 'var(--green)' },
+    fieldColor: { THM: '#e34f26', HTB: 'var(--verdigris)' },
   },
 };
 
@@ -60,8 +69,8 @@ export default function WriteupPage({ type = 'case' }) {
     return (
       <div className={styles.notFound}>
         <div className={styles.nfCode}>404</div>
-        <div className={styles.nfMsg}>// {cfg.notFoundLabel} not found</div>
-        <Link to="/" className="btn btn-p" style={{ marginTop: '2rem' }}>← back home</Link>
+        <div className={styles.nfMsg}>No such {cfg.notFoundLabel} in the casebook</div>
+        <Link to="/" className="btn" style={{ marginTop: '2rem' }}>Return to the lodge</Link>
       </div>
     );
   }
@@ -78,7 +87,7 @@ export default function WriteupPage({ type = 'case' }) {
     <div className={styles.page}>
       {/* Back / breadcrumb */}
       <div className={styles.topBar}>
-        <button className={styles.back} onClick={() => navigate(-1)}>← back</button>
+        <button className={styles.back} onClick={() => navigate(-1)}>&larr; Back</button>
         <div className={styles.breadcrumb}>
           <Link to="/">9t0wl</Link>
           <span>/</span>
@@ -92,7 +101,7 @@ export default function WriteupPage({ type = 'case' }) {
       <header className={styles.header}>
         <div className={styles.meta}>
           <span className={styles.diffBadge} style={{ color: DIFF_COLOR[diff], borderColor: DIFF_COLOR[diff] }}>
-            {diff}
+            {GRADE[diff] || diff}
           </span>
           <span className={styles.osBadge}>
             <span className={styles.osDot} style={{ background: cfg.fieldColor[fieldVal] }} />
@@ -112,13 +121,13 @@ export default function WriteupPage({ type = 'case' }) {
       <article className={styles.article}>
         {loading && (
           <div className={styles.loading}>
-            <span className="mono muted">// loading writeup</span>
+            <span className="mono muted">Retrieving the file</span>
             <span className="blink"> _</span>
           </div>
         )}
         {error && (
           <div className={styles.loading}>
-            <span className="mono muted">// writeup file not found — drop the .md in src/writeups/</span>
+            <span className="mono muted">File missing. Drop the .md into src/writeups/</span>
           </div>
         )}
         {!loading && !error && (
@@ -130,13 +139,13 @@ export default function WriteupPage({ type = 'case' }) {
       <nav className={styles.prevNext}>
         {prev ? (
           <Link to={`${cfg.basePath}/${prev.id}`} className={styles.navBtn}>
-            <span className={styles.navDir}>← prev</span>
+            <span className={styles.navDir}>&larr; Previous case</span>
             <span className={styles.navName}>{prev.name}</span>
           </Link>
         ) : <div />}
         {next ? (
           <Link to={`${cfg.basePath}/${next.id}`} className={`${styles.navBtn} ${styles.navRight}`}>
-            <span className={styles.navDir}>next →</span>
+            <span className={styles.navDir}>Next case &rarr;</span>
             <span className={styles.navName}>{next.name}</span>
           </Link>
         ) : <div />}

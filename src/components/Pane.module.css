@@ -1,0 +1,70 @@
+.pane {
+  position: relative;
+  z-index: 5;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 7vh, 6rem) clamp(1.25rem, 4vw, 3.5rem);
+  border-top: 1px solid rgba(201, 162, 39, 0.14);
+}
+.pane:first-of-type { border-top: none; }
+
+/* --- header rail: chapter mark, engraved label, reading --- */
+.rail {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.mark {
+  font-family: var(--lodge);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  color: var(--gaslamp);
+  border: 1px solid var(--rule2);
+  border-radius: var(--radius);
+  padding: 0.1rem 0.55rem;
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.15);
+  flex-shrink: 0;
+}
+
+.label {
+  font-family: var(--lodge);
+  font-size: 0.86rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brass);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.railLine {
+  flex: 1;
+  height: 1px;
+  min-width: 1.5rem;
+  background: linear-gradient(90deg, var(--brass-dim), rgba(201, 162, 39, 0.08));
+}
+
+.meta {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- title block --- */
+.head { margin-bottom: 2.25rem; }
+
+.blurb {
+  max-width: 62ch;
+  margin-top: 1.1rem;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: var(--faded);
+}
+.blurb strong { color: var(--parchment); font-weight: 600; }
+.blurb em { color: var(--brass-lt); font-style: italic; }

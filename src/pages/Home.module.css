@@ -1,333 +1,444 @@
-.cursorGlow {
-  position: fixed;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  transition: opacity 0.3s;
-}
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
+/* ═════════════════ I · THE LODGE (masthead pane) ═════════════════ */
+.lodge {
+  position: relative;
+  z-index: 5;
+  min-height: calc(100vh - var(--masthead-h));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(6rem, 10vh, 8rem) clamp(1.5rem, 6vw, 6rem) 4rem;
-  position: relative;
-  z-index: 10;
-  max-width: 1200px;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  max-width: 78rem;
   margin: 0 auto;
+  padding: clamp(3rem, 8vh, 6rem) clamp(1.25rem, 4vw, 3.5rem);
 }
 
-.heroContent { flex: 1; }
+.lodgeContent { flex: 1 1 30rem; min-width: 0; }
 
-.heroTag {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--green);
-  letter-spacing: 0.2em;
+.eyebrow {
+  font-family: var(--lodge);
+  font-size: 0.86rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  animation: rise 0.8s 0.15s forwards;
+}
+.eyebrow::before { content: '\275D  '; opacity: 0.55; }
+
+.name {
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 13vw, 9.5rem);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  animation: rise 0.8s 0.3s forwards;
+}
+.nameNum {
+  color: var(--gaslamp);
+  text-shadow: 0 0 28px rgba(240, 185, 90, 0.5), 0 3px 0 rgba(0, 0, 0, 0.6);
+}
+.nameWord {
+  color: var(--brass);
+  text-shadow: 0 0 26px rgba(201, 162, 39, 0.35), 0 3px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* the epigraph, in Watson's voice */
+.creed {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.1vw, 1.45rem);
+  color: var(--faded);
+  border-left: 2px solid var(--rule2);
+  padding-left: 1rem;
   margin-bottom: 1.5rem;
   opacity: 0;
-  animation: fadeUp 0.6s 0.2s forwards;
+  animation: rise 0.8s 0.5s forwards;
 }
-.heroTag::before { content: '> '; }
+.creed em { color: var(--gaslamp); font-style: italic; }
 
-.heroName {
-  font-family: var(--display);
-  font-size: clamp(3.8rem, 11vw, 8.5rem);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+.summary {
+  max-width: 46ch;
+  font-size: 1.12rem;
+  line-height: 1.72;
+  color: var(--faded);
+  margin-bottom: 1.9rem;
   opacity: 0;
-  animation: fadeUp 0.6s 0.4s forwards;
+  animation: rise 0.8s 0.65s forwards;
 }
-.num { color: var(--pink);    text-shadow: var(--glow-pk); }
-.owl { color: var(--purple2); text-shadow: var(--glow-p); }
+.summary strong { color: var(--parchment); font-weight: 600; }
 
-.heroTitle {
-  font-size: clamp(1rem, 2.2vw, 1.35rem);
-  color: var(--muted);
-  font-weight: 300;
-  letter-spacing: 0.04em;
-  margin-bottom: 1.75rem;
-  opacity: 0;
-  animation: fadeUp 0.6s 0.6s forwards;
-}
-.heroTitle strong { color: var(--text); font-weight: 500; }
-
-.heroBadges {
+.badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.2rem;
   opacity: 0;
-  animation: fadeUp 0.6s 0.8s forwards;
+  animation: rise 0.8s 0.8s forwards;
 }
 
-.heroCta {
+.actions {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 0.9rem;
   opacity: 0;
-  animation: fadeUp 0.6s 1s forwards;
+  animation: rise 0.8s 0.95s forwards;
 }
 
-.heroOwl {
-  flex-shrink: 0;
-  margin-left: 2rem;
-  opacity: 0;
-  animation: fadeIn 1.2s 1.2s forwards;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
 }
 
-/* ── HERO EMBLEM (badger badge) ── */
-.heroBadge {
-  flex-shrink: 0;
-  margin-left: 2.5rem;
-  width: clamp(320px, 40vw, 580px);
-  opacity: 0;
-  animation: fadeInFull 1.2s 0.9s forwards;
+/* While the lamps are still being lit the lodge sits behind an opaque
+   overlay, so its entrance would play out where nobody can see it.
+   Holding the animations in their delay phase means the lodge actually
+   animates in as the console clears. */
+:global([data-booting]) .eyebrow,
+:global([data-booting]) .name,
+:global([data-booting]) .creed,
+:global([data-booting]) .summary,
+:global([data-booting]) .badges,
+:global([data-booting]) .actions,
+:global([data-booting]) .emblem,
+:global([data-booting]) .emblemImg {
+  animation-play-state: paused;
 }
 
-.badgeImg {
+/* ── the crest ─────────────────────────────────────────────────
+   No frame and no card: the artwork is feathered into the pane on
+   all four sides and sits in its own pool of lamplight.         */
+.emblem {
+  --feather-x: linear-gradient(90deg, transparent 0%, #000 22%, #000 79%, transparent 100%);
+  --feather-y: linear-gradient(180deg, transparent 0%, #000 7%, #000 92%, transparent 100%);
+  flex: 0 1 34rem;
+  min-width: 0;
+  position: relative;
+  isolation: isolate;
+  opacity: 0;
+  animation: rise 1.2s 0.9s forwards;
+}
+
+.emblem::before {
+  content: '';
+  position: absolute;
+  inset: -22%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--emblem);
+  background-size: cover;
+  background-position: center;
+  filter: blur(54px) saturate(0.85) sepia(0.35) brightness(1.05);
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, #000 15%, transparent 76%);
+          mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, #000 15%, transparent 76%);
+}
+
+.emblemImg {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 10px;
-  border: 1px solid var(--border2);
-  box-shadow:
-    0 0 0 1px rgba(53,201,255,0.08),
-    0 12px 48px -12px rgba(53,201,255,0.45);
+  /* the artwork is cool blue; a warm wash seats it in the lodge palette */
+  filter: sepia(0.30) saturate(1.15) hue-rotate(-8deg) contrast(1.05) brightness(0.98);
+  -webkit-mask-image: var(--feather-x), var(--feather-y);
+          mask-image: var(--feather-x), var(--feather-y);
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+  animation: drift 9s ease-in-out 2.4s infinite;
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
 }
 
-@keyframes fadeInFull {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 0.75; }
-}
-
-/* ── STATS BAR ── */
-.statsBar {
+/* ═══════════════════════ THE GAUGES ═══════════════════════ */
+.gauges {
+  position: relative;
+  z-index: 5;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  position: relative;
-  z-index: 10;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg3);
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 60%),
+    var(--panel);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.08);
 }
 
-.statItem {
-  padding: 1.5rem 1rem;
+.gauge {
+  padding: 1.9rem 1.1rem;
   text-align: center;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid rgba(201, 162, 39, 0.12);
 }
-.statItem:last-child { border-right: none; }
+.gauge:last-child { border-right: none; }
 
-.statNum {
+.gaugeNum {
+  display: block;
   font-family: var(--display);
-  font-size: 2rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: 0.4rem;
+  color: var(--brass-lt);
+  text-shadow: 0 0 22px rgba(201, 162, 39, 0.3), 0 2px 0 rgba(0, 0, 0, 0.6);
 }
-.statLabel {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  color: var(--muted);
-  letter-spacing: 0.15em;
+.gaugeLabel {
+  margin-top: 0.5rem;
+  font-family: var(--lodge);
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--ash);
 }
 
-/* ── SECTIONS ── */
-.section {
+/* ═════════════════════ II · CREDENTIALS ═════════════════════ */
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1.1rem;
+}
+
+/* ══════════════════════ IV · THE CASEBOOK ══════════════════════ */
+/* the filter reads as an inset query well, not a row of pills */
+.query {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.queryMark { color: var(--brass); font-size: 1.05rem; line-height: 1; }
+.queryLabel {
+  font-family: var(--lodge);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-right: 0.3rem;
+}
+
+.filters { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.filterBtn {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ash);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.filterBtn:hover { color: var(--brass-lt); border-color: var(--rule); }
+.filterOn {
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--brass-lt), var(--brass-dim));
+  border-color: var(--brass);
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(201, 162, 39, 0.35);
+}
+
+.caseList { display: flex; flex-direction: column; gap: 0.7rem; }
+
+.tally {
+  margin-top: 1.6rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+}
+
+/* ══════════════════════ V · THE APPARATUS ══════════════════════ */
+.apparatusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  gap: 1.1rem;
+}
+
+.instrument {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 55%), var(--panel);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.07), 0 2px 10px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.instrument:hover {
+  transform: translateY(-3px);
+  border-color: var(--rule2);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.12), 0 10px 26px rgba(0, 0, 0, 0.5);
+}
+
+/* an engraved instrument tag */
+.instMark {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--gaslamp);
+  border: 1px solid var(--rule2);
+  border-radius: var(--radius);
+  padding: 0.14rem 0.5rem;
+  margin-bottom: 0.9rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.instName {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--parchment);
+  margin-bottom: 0.55rem;
+  line-height: 1.2;
+}
+
+.instDesc {
+  font-size: 1rem;
+  line-height: 1.62;
+  color: var(--faded);
+  margin-bottom: 1.1rem;
+  flex: 1;
+}
+
+.instFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px dotted rgba(201, 162, 39, 0.22);
+}
+.instLang {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--ash);
+}
+.instLink {
+  font-family: var(--lodge);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+.instrument:hover .instLink { opacity: 1; transform: none; }
+
+/* ═══════════════════════ VI · THE WIRE ═══════════════════════ */
+.wireGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+.wireLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 55%), var(--panel);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.07);
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.wireLink:hover {
+  transform: translateY(-3px);
+  border-color: var(--rule2);
+  box-shadow: inset 0 1px 0 rgba(236, 198, 90, 0.12), 0 10px 26px rgba(0, 0, 0, 0.5);
+}
+
+.wireMark {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--brass);
+  flex-shrink: 0;
+  text-shadow: 0 0 14px rgba(201, 162, 39, 0.4);
+}
+.wireText { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.wireLabel {
+  font-family: var(--display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1.25;
+}
+.wireSub {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.wireArrow {
+  color: var(--brass);
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity 0.25s, transform 0.25s;
+  flex-shrink: 0;
+}
+.wireLink:hover .wireArrow { opacity: 1; transform: none; }
+
+/* ═══════════════════════════ FOOTER ═══════════════════════════ */
+.footer {
   position: relative;
-  z-index: 10;
-  padding: 6rem clamp(1.5rem, 6vw, 4rem);
-  max-width: 1100px;
+  z-index: 5;
+  padding: 2.5rem clamp(1.25rem, 4vw, 3.5rem) 3rem;
+  max-width: 78rem;
   margin: 0 auto;
 }
 
-.sectionHeader {
-  margin-bottom: 3rem;
+.footInner {
   display: flex;
-  flex-direction: column;
-}
-
-/* ── CERTS ── */
-.certsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-}
-
-/* ── BOXES ── */
-.filters {
-  display: flex;
-  gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 1.75rem;
-}
-
-.filterBtn {
-  padding: 0.3rem 0.8rem;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: none;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  border-radius: var(--radius);
-}
-.filterBtn:hover { color: var(--purple2); border-color: var(--purple); background: rgba(59,130,246,0.08); }
-.filterActive    { color: var(--purple2)!important; border-color: var(--purple)!important; background: rgba(59,130,246,0.12)!important; }
-
-.boxesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
-}
-
-.boxCount {
-  margin-top: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-align: center;
-}
-
-/* ── TOOLS ── */
-.toolsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.25rem;
-}
-
-.toolCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 1.75rem;
-  border-radius: var(--radius);
-  transition: border-color 0.2s, transform 0.2s;
-}
-.toolCard:hover { border-color: rgba(63,220,122,0.35); transform: translateY(-2px); }
-
-.toolIcon {
-  font-family: var(--mono);
-  font-size: 1.3rem;
-  color: var(--green);
-  text-shadow: var(--glow-g);
-  margin-bottom: 0.85rem;
-}
-.toolName {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.5rem;
-}
-.toolDesc {
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 0.85rem;
-}
-.toolLang {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--purple2);
-  letter-spacing: 0.08em;
-}
-.toolLink {
-  display: inline-block;
-  margin-top: 0.85rem;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--green);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: text-shadow 0.2s;
-}
-.toolLink:hover { text-shadow: var(--glow-g); }
-
-/* ── CONTACT ── */
-.contactBlurb {
-  color: var(--muted);
-  max-width: 460px;
-  margin: 1rem auto 0;
-  font-size: 0.95rem;
-}
-.contactGrid {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 2.5rem;
-}
-.contactLink {
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+  font-family: var(--lodge);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--muted);
-  background: var(--surface);
-  border-radius: var(--radius);
-  transition: all 0.2s;
-}
-.contactLink:hover { color: var(--purple2); border-color: var(--purple); box-shadow: var(--glow-p); }
-
-/* ── FOOTER ── */
-.footer {
-  position: relative;
-  z-index: 10;
-  padding: 2.5rem 2rem;
+  color: var(--ash);
   text-align: center;
-  border-top: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--muted);
-  letter-spacing: 0.1em;
+}
+.footCrest { color: var(--brass); font-size: 1.1rem; }
+.footMotto { color: var(--brass-dim); }
+
+/* ═════════════════════════ RESPONSIVE ═════════════════════════ */
+@media (max-width: 1100px) {
+  .lodge { flex-wrap: wrap; }
+  .lodgeContent { flex: 1 1 100%; }
+  .emblem { flex: 1 1 100%; margin-top: 2.5rem; max-width: 32rem; }
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .heroOwl { display: none; }
-
-  /* stack the emblem under the hero text instead of hiding it —
-     it's the primary brand mark on this site */
-  .hero { flex-wrap: wrap; justify-content: center; }
-  .heroContent { flex: 1 1 100%; }
-  .heroBadge {
-    margin: 2.5rem 0 0;
-    width: min(100%, 420px);
-  }
-
-  .statsBar { grid-template-columns: repeat(3, 1fr); }
-  .statItem:nth-child(3) { border-right: none; }
-  .statItem:nth-child(4),
-  .statItem:nth-child(5) { border-top: 1px solid var(--border); }
+@media (max-width: 780px) {
+  .gauges { grid-template-columns: repeat(2, 1fr); }
+  .gauge:nth-child(2) { border-right: none; }
+  .gauge:nth-child(3), .gauge:nth-child(4) { border-top: 1px solid rgba(201, 162, 39, 0.12); }
 }
-@media (max-width: 480px) {
-  .statsBar { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 520px) {
+  .creed { font-size: 1.05rem; }
+  .actions :global(.btn) { width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emblemImg { animation: none; }
 }
