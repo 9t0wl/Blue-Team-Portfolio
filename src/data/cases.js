@@ -38,6 +38,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/unit42.md?raw'),
   },
+  {
+    id: 'campfire-1',
+    name: 'Campfire-1',
+    platform: 'HTB',
+    category: 'DFIR / AD Attack Forensics',
+    diff: 'easy',
+    tags: ['Kerberoasting', 'Active Directory', 'PowerView', 'Rubeus', 'Prefetch', 'PowerShell Script Block Logging', 'EZ Tools'],
+    date: '2026-09',
+    writeup: () => import('../writeups/campfire-1.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
