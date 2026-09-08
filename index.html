@@ -7,15 +7,18 @@
     <meta name="description" content="The Detective’s Lodge — 9t0wl, SOC analyst. Blue team, DFIR and threat detection, backed by three years of offensive security. Casebook, MITRE ATT&amp;CK coverage and field reference." />
     <title>The Detective’s Lodge · 9t0wl — SOC Analyst</title>
     <script>
-      // Restore path from 404.html redirect
+      // Restore path from 404.html redirect. 404.html encodes the real path as
+      // ?p=<path>&q=<query>, not the bare ?/<path> the original spa-github-pages
+      // trick uses -- this has to match that exact format or it's a silent no-op.
       (function(l) {
-        if (l.search[1] === '/') {
-          var decoded = l.search.slice(1).split('&').map(function(s) {
-            return s.replace(/~and~/g, '&');
-          });
+        var search = l.search.slice(1);
+        if (search.indexOf('p=') === 0) {
+          var qIndex = search.indexOf('&q=');
+          var pPart = qIndex === -1 ? search.slice(2) : search.slice(2, qIndex);
+          var qPart = qIndex === -1 ? '' : search.slice(qIndex + 3);
           window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + decoded[0] +
-            (decoded[1] ? '?' + decoded[1] : '') +
+            l.pathname + pPart.replace(/~and~/g, '&') +
+            (qPart ? '?' + qPart.replace(/~and~/g, '&') : '') +
             l.hash
           );
         }
