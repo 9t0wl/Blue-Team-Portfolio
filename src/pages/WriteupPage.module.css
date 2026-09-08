@@ -143,7 +143,7 @@
   letter-spacing: 0.005em;
 }
 .article h2::before {
-  content: '½D9';
+  content: '🔍';
   color: var(--brass);
   font-family: var(--lodge);
   font-size: 1rem;
