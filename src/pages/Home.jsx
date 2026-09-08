@@ -4,7 +4,7 @@ import { certs } from '../data/certs';
 import CaseCard from '../components/CaseCard';
 import CertCard from '../components/CertCard';
 import useReveal from '../components/useReveal';
-import badgerImg from '../assets/dig-detect-defend.webp';
+import badgerImg from '../assets/detectives-lodge.webp';
 import styles from './Home.module.css';
 
 const FILTERS = ['all', 'very-easy', 'easy', 'medium', 'hard', 'insane', 'THM', 'HTB'];
@@ -122,10 +122,10 @@ export default function Home() {
         <div className={styles.heroBadge}>
           <img
             src={badgerImg}
-            alt="Blue Team — Dig, Detect, Defend"
+            alt="Detective's Lodge — Dig for clues, Deduce, Defend"
             className={styles.badgeImg}
-            width="1160"
-            height="633"
+            width="1408"
+            height="768"
             loading="eager"
             fetchPriority="high"
           />
