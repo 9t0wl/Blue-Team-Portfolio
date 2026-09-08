@@ -48,6 +48,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/campfire-1.md?raw'),
   },
+  {
+    id: 'recollection',
+    name: 'Recollection',
+    platform: 'HTB',
+    category: 'DFIR / Memory Forensics',
+    diff: 'easy',
+    tags: ['Volatility3', 'PowerShell Obfuscation', 'Memory Forensics', 'VirusTotal', 'SMB Exfiltration', 'Typosquatting', 'Browser Forensics'],
+    date: '2026-09',
+    writeup: () => import('../writeups/recollection.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
