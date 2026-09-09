@@ -57,6 +57,17 @@ export default function Console({ children }) {
     window.scrollTo({ top: 0, behavior: onHome ? 'smooth' : 'auto' });
   };
 
+  // The index links are plain #hash anchors, which only work when already on
+  // the Home page (native browser hash-scroll). From any other route they're
+  // a no-op -- there's no element with that id to scroll to there. Off Home,
+  // route back to "/" with the hash attached instead; Home reads it on mount
+  // to scroll to the right section.
+  const goToSection = (id) => (e) => {
+    if (onHome || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    navigate(`/#${id}`);
+  };
+
   const counters = [
     { label: 'Cases',   value: cases.length },
     { label: 'Methods', value: stats.techniqueCount },
@@ -72,6 +83,7 @@ export default function Console({ children }) {
           <li key={s.id}>
             <a
               href={`#${s.id}`}
+              onClick={goToSection(s.id)}
               className={`${styles.indexLink} ${onHome && s.id === active ? styles.indexActive : ''}`}
               aria-current={onHome && s.id === active ? 'true' : undefined}
             >

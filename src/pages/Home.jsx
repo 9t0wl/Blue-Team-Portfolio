@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { cases } from '../data/cases';
 import { certs } from '../data/certs';
 import CaseCard from '../components/CaseCard';
@@ -88,7 +89,18 @@ const correspondence = [
 export default function Home() {
   const [filter, setFilter] = useState('all');
   const revealRef = useReveal();
+  const location = useLocation();
   useSpotlight();
+
+  // Console's index links route here with the target section as a hash
+  // (e.g. "/#apparatus") when clicked from any other page, since a client-side
+  // route change doesn't get the browser's native hash-scroll behavior. Do
+  // that scroll ourselves once the section elements are in the DOM.
+  useEffect(() => {
+    if (!location.hash) return;
+    const el = document.getElementById(location.hash.slice(1));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [location.hash]);
 
   // Hold the name's decrypt until the lamps are lit, otherwise it resolves
   // behind the boot overlay and the visitor only ever sees the result.
