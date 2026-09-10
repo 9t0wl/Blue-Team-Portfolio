@@ -58,6 +58,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/recollection.md?raw'),
   },
+  {
+    id: 'rogueone',
+    name: 'RogueOne',
+    platform: 'HTB',
+    category: 'DFIR / Memory Forensics',
+    diff: 'easy',
+    tags: ['Volatility3', 'Process Masquerading', 'C2 Detection', 'Metasploit', 'VirusTotal', 'MITRE ATT&CK', 'Memory Forensics'],
+    date: '2026-09',
+    writeup: () => import('../writeups/rogueone.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
