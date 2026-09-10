@@ -68,6 +68,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/rogueone.md?raw'),
   },
+  {
+    id: 'logjammer',
+    name: 'LogJammer',
+    platform: 'HTB',
+    category: 'DFIR / Windows Event Log Analysis',
+    diff: 'easy',
+    tags: ['Windows Event Logs', 'EZ Tools', 'Timeline Explorer', 'Firewall Forensics', 'Scheduled Tasks', 'PowerShell Logging', 'Audit Policy', 'Anti-Forensics', 'SharpHound', 'Metasploit'],
+    date: '2026-09',
+    writeup: () => import('../writeups/logjammer.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
