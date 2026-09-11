@@ -57,6 +57,7 @@ const TAG_TECHNIQUES = {
   'DNS Correlation':                 { id: 'T1071.004', name: 'DNS',                     tactics: ['Command and Control'] },
   'UltraVNC':                        { id: 'T1219',     name: 'Remote Access Software',  tactics: ['Command and Control'] },
   'Exfiltration':                    { id: 'T1041',     name: 'Exfiltration Over C2 Channel', tactics: ['Exfiltration'] },
+  'PsExec Lateral Movement':         { id: 'T1021.002', name: 'SMB/Windows Admin Shares', tactics: ['Lateral Movement'] },
 };
 
 /**

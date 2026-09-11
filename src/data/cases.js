@@ -78,6 +78,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/logjammer.md?raw'),
   },
+  {
+    id: 'tracer',
+    name: 'Tracer',
+    platform: 'HTB',
+    category: 'DFIR / Endpoint Forensics',
+    diff: 'easy',
+    tags: ['PsExec Lateral Movement', 'Prefetch', 'USN Journal', 'Named Pipes', 'Windows Event Logs', 'Sysmon', 'EZ Tools', 'Timeline Explorer'],
+    date: '2026-09',
+    writeup: () => import('../writeups/tracer.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
