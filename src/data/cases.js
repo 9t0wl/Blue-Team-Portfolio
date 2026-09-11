@@ -88,6 +88,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/tracer.md?raw'),
   },
+  {
+    id: 'trojan',
+    name: 'Trojan',
+    platform: 'HTB',
+    category: 'DFIR / Malware Triage',
+    diff: 'easy',
+    tags: ['Volatility3', 'Zui/Zeek', 'Prefetch', 'C2 Detection', 'VirusTotal', 'FTK Imager', 'Inno Setup', 'ANY.RUN', 'Memory Forensics'],
+    date: '2026-09',
+    writeup: () => import('../writeups/trojan.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
