@@ -98,6 +98,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/trojan.md?raw'),
   },
+  {
+    id: 'reliablethreat',
+    name: 'ReliableThreat',
+    platform: 'HTB',
+    category: 'DFIR / Supply Chain Compromise',
+    diff: 'medium',
+    tags: ['Supply Chain Attack', 'VS Code Extension', 'JS Deobfuscation', 'Reverse Shell', 'Process Masquerading', 'COM Hijacking', 'Web Shell', 'Volatility3', 'FTK Imager'],
+    date: '2026-09',
+    writeup: () => import('../writeups/reliablethreat.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
