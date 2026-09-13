@@ -108,6 +108,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/reliablethreat.md?raw'),
   },
+  {
+    id: 'jinkies',
+    name: 'Jinkies',
+    platform: 'HTB',
+    category: 'DFIR / Insider Data Theft',
+    diff: 'medium',
+    tags: ['KAPE', 'Registry Forensics', 'InnoDB/MySQL Forensics', 'Credential Reuse', 'RDP/NLA', 'Windows Event Logs', 'Browser Forensics', 'MFT Resident Data', 'EZ Tools', 'OSINT'],
+    date: '2026-09',
+    writeup: () => import('../writeups/jinkies.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
