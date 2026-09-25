@@ -58,9 +58,58 @@ RBCmd.exe -f "<triage>\C\$Recycle.Bin\<SID>\$I<random>" --csv "<out>" --csvf Rec
 
 ### Phase 1 — Initial Access (Tasks 1-4)
 
-Edge's `History` SQLite database (`urls`/`visits` for browsing, `downloads`/`downloads_url_chains` for file downloads) gave the entry point directly: a Facebook post from page `AI.ultra.new`, visited `2024-03-19 04:30:00 UTC`, linking to a RAR archive, `AI.Gemini Ultra For PC V1.0.1.rar`.
+Edge's `History` database is a standard Chromium-schema SQLite file, `urls`/`visits` for browsing history, `downloads`/`downloads_url_chains` for file downloads, opened directly with DB Browser for SQLite (`...\Edge\User Data\Default\History`).
 
-The `downloads_url_chains` table (records every redirect hop a download URL takes) was the key to isolating the malicious download from unrelated legitimate ones in the same table (Sysinternals, GitHub blob downloads): download `id=5`'s chain started at Facebook's own `l.php` link-shim redirector and hopped through Google Drive's direct-download endpoint three times before landing, a fingerprint distinct from the other, unrelated download IDs.
+**Task 1/2, the Facebook post and its visit time**, came from joining `urls` and `visits`:
+
+```sql
+SELECT urls.url, urls.title, visits.visit_time
+FROM urls
+JOIN visits ON urls.id = visits.url
+WHERE urls.url LIKE '%facebook.com%';
+```
+
+That returned `https://www.facebook.com/AI.ultra.new/posts/pfbid0BqpxXypMtY5dWGy2GDfpRD4cQRppdNEC9SSa72FmPVKqik9iWNa2mRkpx9xziAS1I`, with `visit_time` as a raw integer that means nothing until decoded. Chromium stores every timestamp in this database as **WebKit/Chrome time**, microseconds since `1601-01-01 00:00:00 UTC`, not Unix epoch:
+
+```
+unix_seconds = (webkit_timestamp / 1,000,000) - 11,644,473,600
+```
+
+DB Browser doesn't auto-convert this column, it displays the raw integer, so every timestamp pulled from this database needed the same conversion (either query it directly with `SELECT datetime(visit_time/1000000-11644473600, 'unixepoch')`, or convert by hand). Worked example using the `downloads.start_time` value captured below (`13355296222571356`): `13355296222571356 / 1,000,000 = 13,355,296,222.57` seconds since 1601 → minus `11,644,473,600` → `1,710,822,622.57` Unix seconds → **`2024-03-19 04:30:22 UTC`**, landing right at the download, seconds after the page visit. The visit itself converted the same way to give the Task 2 answer, `2024-03-19 04:30:00 UTC`.
+
+**Task 3/4, the archived file and its true source URL**, came from `downloads` and `downloads_url_chains`. The `downloads` row for this file (id `5`):
+
+```sql
+SELECT * FROM downloads WHERE id = 5;
+```
+
+```
+id=5 | guid=2d16bd8c-ce11-4321-a3fe-23aab84083af
+current_path/target_path = C:\Users\alonzo.spire\Downloads\AI.Gemini Ultra For PC V1.0.1.rar
+start_time = 13355296222571356 | received_bytes/total_bytes = 404274
+referrer/site_url = https://l.facebook.com/l.php?u=https%3A%2F%2Fdrive.usercontent.google.com%2F...
+tab_url = https://www.facebook.com/
+mime_type = application/octet-stream
+```
+
+`current_path`/`target_path` directly answers **Task 3**, the archive filename, `AI.Gemini Ultra For PC V1.0.1.rar`. The `hash` column on this row was empty, Edge didn't compute one for this download, a dead end chased later for Task 16.
+
+`downloads_url_chains` records every redirect hop a download URL takes before landing on its final target, this was the key to both confirming the exact chain **and** isolating the malicious download from unrelated legitimate ones sitting in the same table (Sysinternals, GitHub blob downloads):
+
+```sql
+SELECT * FROM downloads_url_chains ORDER BY id, chain_index;
+```
+
+| id | chain_index | url |
+|---|---|---|
+| 1 | 0 | `https://download.sysinternals.com/...` (unrelated) |
+| 2 | 0 | `https://...` (unrelated) |
+| 3 | 0 | `blob:https://github.com/...` (unrelated) |
+| 4 | 0 | `blob:https://github.com/...` (unrelated) |
+| **5** | 0 | `https://1.facebook.com/l.php?...` (Facebook link-shim redirector) |
+| **5** | 1-3 | `https://drive.usercontent.google.com/...` (three redirect hops) |
+
+Download `id=5` is the only chain starting at Facebook's own `l.php` redirector, confirming it as the malicious one (ids 1-4 are noise, real unrelated downloads on the same profile). The final hop, `chain_index=3`, gives the literal **Task 4** answer: `https://drive.usercontent.google.com/download?id=1z-SGnYJCPE0HA_Faz6N7mD5qf0E-A76H&export=download`.
 
 ### Phase 2 — The Real Installer vs. What It Claimed to Be (Tasks 5-6)
 
