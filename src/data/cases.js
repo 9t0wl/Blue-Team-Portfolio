@@ -109,6 +109,16 @@ export const cases = [
     writeup: () => import('../writeups/reliablethreat.md?raw'),
   },
   {
+    id: 'detroitbecomeshuman',
+    name: 'Detroit Becomes Human',
+    platform: 'HTB',
+    category: 'DFIR / Malware Triage (Malvertising)',
+    diff: 'hard',
+    tags: ['Malvertising', 'MSI Forensics', 'Timestomping', 'MFT Resident Data', 'Fake Browser Extension', 'PowerShell Logging', 'Recycle Bin Forensics', 'ANY.RUN', 'EZ Tools'],
+    date: '2026-09',
+    writeup: () => import('../writeups/detroitbecomeshuman.md?raw'),
+  },
+  {
     id: 'jinkies',
     name: 'Jinkies',
     platform: 'HTB',
