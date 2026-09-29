@@ -58,6 +58,10 @@ const TAG_TECHNIQUES = {
   'UltraVNC':                        { id: 'T1219',     name: 'Remote Access Software',  tactics: ['Command and Control'] },
   'Exfiltration':                    { id: 'T1041',     name: 'Exfiltration Over C2 Channel', tactics: ['Exfiltration'] },
   'PsExec Lateral Movement':         { id: 'T1021.002', name: 'SMB/Windows Admin Shares', tactics: ['Lateral Movement'] },
+  'Malvertising':                    { id: 'T1204.002', name: 'Malicious File',          tactics: ['Execution'] },
+  'Scheduled Task Persistence':      { id: 'T1053.005', name: 'Scheduled Task',          tactics: ['Persistence'] },
+  'DGA C2':                          { id: 'T1568.002', name: 'Domain Generation Algorithms', tactics: ['Command and Control'] },
+  'Cloud Storage Exfiltration':      { id: 'T1567.002', name: 'Exfiltration to Cloud Storage', tactics: ['Exfiltration'] },
 };
 
 /**
