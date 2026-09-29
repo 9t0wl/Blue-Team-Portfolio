@@ -128,6 +128,16 @@ export const cases = [
     date: '2026-09',
     writeup: () => import('../writeups/jinkies.md?raw'),
   },
+  {
+    id: 'streamer',
+    name: 'Streamer',
+    platform: 'HTB',
+    category: 'DFIR / Malware Triage (Malvertising & Backdoor)',
+    diff: 'hard',
+    tags: ['Malvertising', 'Zone.Identifier ADS', 'USN Journal', 'MFT Resident Data', 'Amcache', 'Prefetch', 'Scheduled Task Persistence', 'DGA C2', 'Cloud Storage Exfiltration', 'Shellbags', 'Windows Event Logs', 'EZ Tools', 'Timeline Explorer'],
+    date: '2026-09',
+    writeup: () => import('../writeups/streamer.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
