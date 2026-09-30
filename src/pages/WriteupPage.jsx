@@ -75,7 +75,7 @@ export default function WriteupPage({ type = 'case' }) {
     );
   }
 
-  const { name, diff, tags, date } = item;
+  const { name, diff, tags, date, video } = item;
   const fieldVal = item[cfg.fieldKey];
 
   const sorted = [...cfg.items].sort((a, b) => cfg.diffOrder[a.diff] - cfg.diffOrder[b.diff]);
@@ -116,6 +116,20 @@ export default function WriteupPage({ type = 'case' }) {
           {tags.map((t) => <span key={t} className={styles.tag}>{t}</span>)}
         </div>
       </header>
+
+      {/* Video walkthrough (optional) */}
+      {video && (
+        <div className={styles.video}>
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${video}`}
+            title={`${name} walkthrough`}
+            loading="lazy"
+            allow="accelerometer; encrypted-media; picture-in-picture; fullscreen"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      )}
 
       {/* Body */}
       <article className={styles.article}>

@@ -25,7 +25,7 @@ function filedOn(date) {
 }
 
 export default function CaseCard({ entry }) {
-  const { id, name, platform, category, diff, tags, date } = entry;
+  const { id, name, platform, category, diff, tags, date, video } = entry;
   const grade = GRADE[diff] || GRADE.medium;
 
   // Numbered by position in the casebook, not by position in the filtered
@@ -66,6 +66,7 @@ export default function CaseCard({ entry }) {
             </>
           )}
           {embargoed && <span className={styles.stamp}>Embargoed</span>}
+          {video && <span className={styles.watch}>&#9654; Video</span>}
         </div>
 
         <div className={styles.traces}>

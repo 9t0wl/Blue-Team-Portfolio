@@ -4,7 +4,8 @@
 //  To add a new case:
 //    1. Drop yourcase.md into src/writeups/
 //    2. Add an entry below with writeup: () => import('../writeups/yourcase.md?raw')
-//    3. Save — that's it.
+//    3. Optional: video: '<YouTube id>' embeds the walkthrough on the case page.
+//    4. Save — that's it.
 // ─────────────────────────────────────────────────────────────
 
 export const cases = [
@@ -46,6 +47,7 @@ export const cases = [
     diff: 'easy',
     tags: ['Kerberoasting', 'Active Directory', 'PowerView', 'Rubeus', 'Prefetch', 'PowerShell Script Block Logging', 'EZ Tools'],
     date: '2026-09',
+    video: 'w3folB_5PKo',
     writeup: () => import('../writeups/campfire-1.md?raw'),
   },
   {
@@ -136,6 +138,7 @@ export const cases = [
     diff: 'hard',
     tags: ['Malvertising', 'Zone.Identifier ADS', 'USN Journal', 'MFT Resident Data', 'Amcache', 'Prefetch', 'Scheduled Task Persistence', 'DGA C2', 'Cloud Storage Exfiltration', 'Shellbags', 'Windows Event Logs', 'EZ Tools', 'Timeline Explorer'],
     date: '2026-09',
+    video: 'AkmJB2kvdDg',
     writeup: () => import('../writeups/streamer.md?raw'),
   },
 ];

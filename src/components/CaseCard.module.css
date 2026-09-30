@@ -209,3 +209,14 @@
 @media (prefers-reduced-motion: reduce) {
   .file:hover { transform: none; }
 }
+
+.watch {
+  margin-left: 0.6rem;
+  padding: 0 0.45rem;
+  border: 1px solid var(--brass-dim);
+  color: var(--brass-lt);
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
