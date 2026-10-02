@@ -149,6 +149,7 @@ export const cases = [
     diff: 'easy',
     tags: ['Wireshark', 'PCAP Analysis', 'SIP', 'RTP', 'Vishing', 'Caller ID Spoofing', 'Audio Reconstruction', 'RDP Drive Redirection'],
     date: '2026-10',
+    video: 'ckGX_kHBwRw',
     writeup: () => import('../writeups/voip.md?raw'),
   },
 ];
