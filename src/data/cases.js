@@ -141,6 +141,16 @@ export const cases = [
     video: 'AkmJB2kvdDg',
     writeup: () => import('../writeups/streamer.md?raw'),
   },
+  {
+    id: 'voip',
+    name: 'VoIP',
+    platform: 'HTB',
+    category: 'Network Forensics / VoIP (Vishing)',
+    diff: 'easy',
+    tags: ['Wireshark', 'PCAP Analysis', 'SIP', 'RTP', 'Vishing', 'Caller ID Spoofing', 'Audio Reconstruction', 'RDP Drive Redirection'],
+    date: '2026-10',
+    writeup: () => import('../writeups/voip.md?raw'),
+  },
 ];
 
 // ── helpers ──────────────────────────────────────────────────
